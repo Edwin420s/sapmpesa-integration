@@ -1,0 +1,52 @@
+{
+  "name": "sap-mpesa-backend",
+  "version": "1.0.0",
+  "description": "Backend microservices for SAP M-Pesa Integration",
+  "scripts": {
+    "dev": "concurrently \"npm:dev:*\"",
+    "dev:auth": "cd auth-service && npm run dev",
+    "dev:mpesa": "cd mpesa-service && npm run dev",
+    "dev:transaction": "cd transaction-service && npm run dev",
+    "dev:sap": "cd sap-service && npm run dev",
+    "dev:notification": "cd notification-service && npm run dev",
+    "dev:gateway": "cd api-gateway && npm run dev",
+    "test": "npm run test:all",
+    "test:all": "concurrently \"npm:test:*\"",
+    "test:auth": "cd auth-service && npm test",
+    "test:mpesa": "cd mpesa-service && npm test",
+    "test:transaction": "cd transaction-service && npm test",
+    "test:sap": "cd sap-service && npm test",
+    "test:notification": "cd notification-service && npm test",
+    "test:gateway": "cd api-gateway && npm test",
+    "lint": "eslint server/**/*.js",
+    "lint:fix": "eslint server/**/*.js --fix",
+    "format": "prettier --write server/**/*.js",
+    "build": "npm run build:all",
+    "build:all": "concurrently \"npm:build:*\"",
+    "build:auth": "cd auth-service && npm run build",
+    "build:mpesa": "cd mpesa-service && npm run build",
+    "build:transaction": "cd transaction-service && npm run build",
+    "build:sap": "cd sap-service && npm run build",
+    "build:notification": "cd notification-service && npm run build",
+    "build:gateway": "cd api-gateway && npm run build",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.0",
+    "nodemon": "^2.0.0",
+    "prettier": "^2.8.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.11.0"
+  }
+}

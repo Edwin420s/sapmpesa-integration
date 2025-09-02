@@ -1,0 +1,57 @@
+.dashboard-container {
+  padding: var(--spacing-6);
+  margin-left: 250px;
+  min-height: calc(100vh - 64px);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-8);
+}
+
+.dashboard-header h1 {
+  color: var(--gray-900);
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  margin: 0;
+}
+
+.recent-transactions {
+  margin-top: var(--spacing-8);
+}
+
+.recent-transactions h2 {
+  color: var(--gray-800);
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin-bottom: var(--spacing-6);
+}
+
+.error-container {
+  background: #fee;
+  color: var(--error);
+  padding: var(--spacing-6);
+  border-radius: var(--border-radius);
+  text-align: center;
+  margin: var(--spacing-6);
+  border: 1px solid #fcc;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    margin-left: 0;
+    padding: var(--spacing-4);
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    gap: var(--spacing-4);
+    align-items: flex-start;
+  }
+  
+  .dashboard-header h1 {
+    font-size: var(--font-size-2xl);
+  }
+}

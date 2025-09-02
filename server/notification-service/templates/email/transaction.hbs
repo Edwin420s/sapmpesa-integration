@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: #1a237e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            background: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+        .footer {
+            background: #eee;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-radius: 0 0 8px 8px;
+        }
+        .transaction-details {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 4px solid #1a237e;
+        }
+        .status-success {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        .status-pending {
+            color: #f57c00;
+            font-weight: bold;
+        }
+        .status-failed {
+            color: #c62828;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SAP M-Pesa Integration</h1>
+    </div>
+    
+    <div class="content">
+        <h2>{{subject}}</h2>
+        <p>{{message}}</p>
+        
+        {{#if transaction}}
+        <div class="transaction-details">
+            <h3>Transaction Details:</h3>
+            <p><strong>Amount:</strong> KES {{transaction.amount}}</p>
+            <p><strong>Phone Number:</strong> {{transaction.phone_number}}</p>
+            <p><strong>Reference:</strong> {{transaction.account_reference}}</p>
+            <p><strong>Status:</strong> 
+                <span class="status-{{transaction.status}}">
+                    {{transaction.status}}
+                </span>
+            </p>
+            {{#if transaction.mpesa_receipt}}
+            <p><strong>MPesa Receipt:</strong> {{transaction.mpesa_receipt}}</p>
+            {{/if}}
+            {{#if transaction.transaction_date}}
+            <p><strong>Date:</strong> {{transaction.transaction_date}}</p>
+            {{/if}}
+        </div>
+        {{/if}}
+        
+        <p>If you have any questions, please contact our support team.</p>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated message. Please do not reply to this email.</p>
+        <p>&copy; 2023 SAP M-Pesa Integration. All rights reserved.</p>
+    </div>
+</body>
+</html>

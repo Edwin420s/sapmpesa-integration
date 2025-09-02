@@ -1,0 +1,49 @@
+{
+  "name": "SAP M-Pesa Integration API",
+  "version": "1.0.0",
+  "description": "Microservices architecture for SAP and M-Pesa integration",
+  "environment": "development",
+  "services": {
+    "auth": {
+      "port": 3001,
+      "database": "mongodb://localhost:27017/sap-mpesa-auth"
+    },
+    "mpesa": {
+      "port": 3002,
+      "database": "postgresql://postgres:postgres@localhost:5432/sap-mpesa-mpesa"
+    },
+    "transaction": {
+      "port": 3003,
+      "database": "postgresql://postgres:postgres@localhost:5432/sap-mpesa-transactions"
+    },
+    "sap": {
+      "port": 3004,
+      "database": "postgresql://postgres:postgres@localhost:5432/sap-mpesa-sap"
+    },
+    "notification": {
+      "port": 3005,
+      "database": "mongodb://localhost:27017/sap-mpesa-notifications"
+    }
+  },
+  "jwt": {
+    "secret": "your-super-secret-jwt-key-change-in-production",
+    "expiresIn": "24h"
+  },
+  "mpesa": {
+    "environment": "sandbox",
+    "businessShortCode": "174379",
+    "passkey": "your-mpesa-passkey",
+    "consumerKey": "your-consumer-key",
+    "consumerSecret": "your-consumer-secret",
+    "callbackUrl": "https://your-domain.com/api/mpesa/callback"
+  },
+  "sap": {
+    "baseURL": "https://your-sap-system.com",
+    "client": "100",
+    "language": "EN"
+  },
+  "cors": {
+    "origin": "http://localhost:3000",
+    "credentials": true
+  }
+}

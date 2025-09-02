@@ -1,0 +1,47 @@
+{
+  "environment": "NODE_ENV",
+  "services": {
+    "auth": {
+      "port": "AUTH_SERVICE_PORT",
+      "database": "MONGODB_URI"
+    },
+    "mpesa": {
+      "port": "MPESA_SERVICE_PORT",
+      "database": "POSTGRES_DB_URI"
+    },
+    "transaction": {
+      "port": "TRANSACTION_SERVICE_PORT",
+      "database": "POSTGRES_DB_URI"
+    },
+    "sap": {
+      "port": "SAP_SERVICE_PORT",
+      "database": "POSTGRES_DB_URI"
+    },
+    "notification": {
+      "port": "NOTIFICATION_SERVICE_PORT",
+      "database": "MONGODB_URI"
+    }
+  },
+  "jwt": {
+    "secret": "JWT_SECRET",
+    "expiresIn": "JWT_EXPIRES_IN"
+  },
+  "mpesa": {
+    "environment": "MPESA_ENVIRONMENT",
+    "businessShortCode": "MPESA_BUSINESS_SHORTCODE",
+    "passkey": "MPESA_PASSKEY",
+    "consumerKey": "MPESA_CONSUMER_KEY",
+    "consumerSecret": "MPESA_CONSUMER_SECRET",
+    "callbackUrl": "MPESA_CALLBACK_URL"
+  },
+  "sap": {
+    "baseURL": "SAP_BASE_URL",
+    "username": "SAP_USERNAME",
+    "password": "SAP_PASSWORD",
+    "client": "SAP_CLIENT",
+    "language": "SAP_LANGUAGE"
+  },
+  "cors": {
+    "origin": "CORS_ORIGIN"
+  }
+}

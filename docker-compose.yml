@@ -1,0 +1,185 @@
+services:
+  # API Gateway
+  api-gateway:
+    build: ./server/api-gateway
+    ports:
+      - "80:3000"
+      - "443:3000"
+    environment:
+      - NODE_ENV=production
+      - GATEWAY_PORT=3000
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - MPESA_SERVICE_URL=http://mpesa-service:3002
+      - TRANSACTION_SERVICE_URL=http://transaction-service:3003
+      - SAP_SERVICE_URL=http://sap-service:3004
+      - NOTIFICATION_SERVICE_URL=http://notification-service:3005
+      - JWT_SECRET=${JWT_SECRET}
+      - CORS_ORIGIN=${CORS_ORIGIN}
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Auth Service
+  auth-service:
+    build: ./server/auth-service
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=1h
+    deploy:
+      replicas: 2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+
+  # M-Pesa Service
+  mpesa-service:
+    build: ./server/mpesa-service
+    environment:
+      - NODE_ENV=production
+      - PORT=3002
+      - POSTGRES_DB_URI=${POSTGRES_DB_URI}
+      - MPESA_ENVIRONMENT=production
+      - MPESA_BUSINESS_SHORTCODE=${MPESA_BUSINESS_SHORTCODE}
+      - MPESA_PASSKEY=${MPESA_PASSKEY}
+      - MPESA_CONSUMER_KEY=${MPESA_CONSUMER_KEY}
+      - MPESA_CONSUMER_SECRET=${MPESA_CONSUMER_SECRET}
+      - MPESA_CALLBACK_URL=${MPESA_CALLBACK_URL}
+    deploy:
+      replicas: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 30s
+
+  # Transaction Service
+  transaction-service:
+    build: ./server/transaction-service
+    environment:
+      - NODE_ENV=production
+      - PORT=3003
+      - POSTGRES_DB_URI=${POSTGRES_DB_URI}
+    deploy:
+      replicas: 2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 30s
+
+  # SAP Service
+  sap-service:
+    build: ./server/sap-service
+    environment:
+      - NODE_ENV=production
+      - PORT=3004
+      - POSTGRES_DB_URI=${POSTGRES_DB_URI}
+      - SAP_BASE_URL=${SAP_BASE_URL}
+      - SAP_USERNAME=${SAP_USERNAME}
+      - SAP_PASSWORD=${SAP_PASSWORD}
+      - SAP_CLIENT=${SAP_CLIENT}
+      - SAP_LANGUAGE=${SAP_LANGUAGE}
+    deploy:
+      replicas: 2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
+      interval: 30s
+
+  # Notification Service
+  notification-service:
+    build: ./server/notification-service
+    environment:
+      - NODE_ENV=production
+      - PORT=3005
+      - MONGODB_URI=${MONGODB_URI}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}
+    deploy:
+      replicas: 2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3005/health"]
+      interval: 30s
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./server/database/migrations:/docker-entrypoint-initdb.d
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  # MongoDB
+  mongodb:
+    image: mongo:5
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+    volumes:
+      - mongodb_data:/data/db
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  # Redis
+  redis:
+    image: redis:6-alpine
+    volumes:
+      - redis_data:/data
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  # Frontend Client
+  client:
+    build: 
+      context: ./client
+      args:
+        - REACT_APP_API_URL=${REACT_APP_API_URL}
+        - REACT_APP_ENVIRONMENT=production
+    ports:
+      - "3000:3000"
+    deploy:
+      replicas: 2
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/ssl/certs
+    depends_on:
+      - api-gateway
+      - client
+    deploy:
+      replicas: 2
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  redis_data:
+
+networks:
+  default:
+    driver: overlay
+    attachable: true

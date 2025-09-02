@@ -1,0 +1,41 @@
+{
+  "environment": "production",
+  "services": {
+    "auth": {
+      "database": "mongodb://production-db:27017/sap-mpesa-auth"
+    },
+    "mpesa": {
+      "database": "postgresql://user:pass@production-db:5432/sap-mpesa-mpesa"
+    },
+    "transaction": {
+      "database": "postgresql://user:pass@production-db:5432/sap-mpesa-transactions"
+    },
+    "sap": {
+      "database": "postgresql://user:pass@production-db:5432/sap-mpesa-sap"
+    },
+    "notification": {
+      "database": "mongodb://production-db:27017/sap-mpesa-notifications"
+    }
+  },
+  "jwt": {
+    "secret": "change-this-to-a-very-strong-random-secret-in-production",
+    "expiresIn": "1h"
+  },
+  "mpesa": {
+    "environment": "production",
+    "businessShortCode": "your-production-business-shortcode",
+    "passkey": "your-production-passkey",
+    "consumerKey": "your-production-consumer-key",
+    "consumerSecret": "your-production-consumer-secret",
+    "callbackUrl": "https://your-production-domain.com/api/mpesa/callback"
+  },
+  "sap": {
+    "baseURL": "https://your-production-sap-system.com",
+    "client": "200",
+    "language": "EN"
+  },
+  "cors": {
+    "origin": "https://your-production-domain.com",
+    "credentials": true
+  }
+}
