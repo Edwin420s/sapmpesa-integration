@@ -1,4 +1,4 @@
-# SAP M-Pesa Integration Microservices
+# SAP M-Pesa Integration Microservices Platform
 
 A comprehensive microservices architecture for integrating SAP ERP with Safaricom M-Pesa Daraja API.
 
