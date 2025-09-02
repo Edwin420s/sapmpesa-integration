@@ -1,6 +1,6 @@
 # SAP M-Pesa Integration Microservices Platform
 
-https://img.shields.io/badge/version-1.0.0-blue.svg
+(https://img.shields.io/badge/version-1.0.0-blue.svg)
 https://img.shields.io/badge/node-18.x-green.svg
 https://img.shields.io/badge/license-MIT-yellow.svg
 https://img.shields.io/badge/docker-ready-blue.svg
@@ -82,7 +82,7 @@ This project follows a microservices architecture with the following services:
 
 1. Clone the repository:
 ```
-git clone (https://github.com/Edwin420s/sapmpesa-integration)
+git clone https://github.com/Edwin420s/sapmpesa-integration.git
 cd sap-mpesa-integration
 ```
 
