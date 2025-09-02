@@ -82,7 +82,7 @@ This project follows a microservices architecture with the following services:
 
 1. Clone the repository:
 ```
-git clone <repository-url>
+git clone (https://github.com/Edwin420s/sapmpesa-integration)
 cd sap-mpesa-integration
 ```
 
